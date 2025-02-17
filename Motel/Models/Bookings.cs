@@ -12,8 +12,8 @@ namespace Motel.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string PostId { get; set; } 
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string UserId { get; set; }  
+        
+        public Guid UserId { get; set; }  
 
         public string Status { get; set; }  
 

@@ -24,6 +24,19 @@ namespace Motel.Services
         {
             return _database.GetCollection<Reports>("Reports");
         }
+        public IMongoCollection<Reviews> GetReviewCollection()
+        {
+            return _database.GetCollection<Reviews>("Reviews");
+        }
+
+        public IMongoCollection<Categories> GetCategoryCollection()
+        {
+            return _database.GetCollection<Categories>("Categories");
+        }
+        public IMongoCollection<News> GetNewsCollection()
+        {
+            return _database.GetCollection<News>("News");
+        }
 
     }
 }

@@ -8,6 +8,9 @@ namespace Motel.Models
     {
         public string? FullName { get; set; }
         public bool? IsBlock { get; set; } = false;
+        public string? Avatar { get; set; }
+
+        public List<string> Favorites { get; set; } = new List<string>();
     }
 
    
