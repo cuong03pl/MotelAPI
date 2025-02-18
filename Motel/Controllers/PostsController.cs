@@ -24,9 +24,10 @@ namespace Motel.Controllers
         }
 
         [HttpGet("GetApprovedPosts")]
-        public async Task<object> GetApprovedPosts([FromQuery] int page = 1, [FromQuery] int pageSize = 1)
+        public async Task<object> GetApprovedPosts([FromQuery] int page = 1, [FromQuery] int pageSize = 1, [FromQuery] decimal? minPrice = 0, [FromQuery] decimal? maxPrice = null,
+            [FromQuery] double? minArea = 0, [FromQuery] double? maxArea = null, [FromQuery] string? categoryId = null, [FromQuery] string? provinceSlug = null, [FromQuery] string? districtSlug = null)
         {
-            return await _postRepository.GetApprovedPosts(page, pageSize);
+            return await _postRepository.GetApprovedPosts(page, pageSize, minPrice, maxPrice, minArea, maxArea, categoryId, provinceSlug, districtSlug);
         }
 
         [HttpPost("SearchByLocation")]

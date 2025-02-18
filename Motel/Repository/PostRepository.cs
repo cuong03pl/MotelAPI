@@ -134,11 +134,37 @@ namespace Motel.Repository
         }
 
 
-        public async Task<object> GetApprovedPosts(int page, int pageSize)
+        public async Task<object> GetApprovedPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug)
         {
+            var matchConditions = new BsonArray();
+
+            if (minPrice.HasValue)
+                matchConditions.Add(new BsonDocument("Price", new BsonDocument("$gte", minPrice.Value)));
+
+            if (maxPrice.HasValue)
+                matchConditions.Add(new BsonDocument("Price", new BsonDocument("$lte", maxPrice.Value)));
+
+            if (minArea.HasValue)
+                matchConditions.Add(new BsonDocument("Area", new BsonDocument("$gte", minArea.Value)));
+
+            if (maxArea.HasValue)
+                matchConditions.Add(new BsonDocument("Area", new BsonDocument("$lte", maxArea.Value)));
+
+            if (!string.IsNullOrEmpty(categoryId))
+                matchConditions.Add(new BsonDocument("CategoryId", new ObjectId(categoryId)));
+
+            if (!string.IsNullOrEmpty(provinceSlug))
+                matchConditions.Add(new BsonDocument("location.ProvinceSlug", _generateSlug.TextToSlug(provinceSlug)));
+
+            if (!string.IsNullOrEmpty(districtSlug))
+                matchConditions.Add(new BsonDocument("location.DistrictSlug", _generateSlug.TextToSlug(districtSlug)));
+            matchConditions.Add( new BsonDocument("Is_Browse", 1));
+           
+            var matchStage = new BsonDocument("$match", new BsonDocument("$and", matchConditions));
+
             var pipeline = new[]
             {
-                new BsonDocument("$match", new BsonDocument("Is_Browse", 1)),
+               matchStage,
                 new BsonDocument("$lookup", new BsonDocument
                 {
                     { "from", "applicationUsers" },
@@ -205,7 +231,8 @@ namespace Motel.Repository
                           .ToListAsync();
 
             var totalCount = await _motelService.GetPostCollection()
-                             .CountDocumentsAsync(post => post.Is_Browse == 1);
+                 .CountDocumentsAsync(new BsonDocument("$and", matchConditions));
+
 
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
