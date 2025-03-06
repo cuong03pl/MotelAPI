@@ -37,6 +37,10 @@ namespace Motel.Services
         {
             return _database.GetCollection<News>("News");
         }
+        public IMongoCollection<Bookings> GetBookingCollection()
+        {
+            return _database.GetCollection<Bookings>("Bookings");
+        }
 
     }
 }

@@ -10,12 +10,14 @@ namespace Motel.Models
         public string? Id { get; set; }  
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string PostId { get; set; } 
+        public string? PostId { get; set; } 
 
         
         public Guid UserId { get; set; }  
 
-        public string Status { get; set; }  
+        public int? Status { get; set; }
+        public decimal? Price { get; set; }
+
 
         public DateTime CreateAt { get; set; } 
     }

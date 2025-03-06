@@ -25,6 +25,7 @@ builder.Services.AddSingleton<IReportRepository, ReportRepository>();
 builder.Services.AddSingleton<IReviewRepository, ReviewRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<INewsRepository, NewsRepository>();
+builder.Services.AddSingleton<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<RandomImage>();
 builder.Services.AddSingleton<GenerateSlug>();
 
