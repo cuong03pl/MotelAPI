@@ -2,6 +2,7 @@
 using Motel.DTO;
 using Motel.Interfaces;
 using Motel.Models;
+using Motel.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,6 +29,13 @@ namespace Motel.Controllers
         {
             return _bookingRepository.GetUserBookings(id);
         }
+
+        [HttpGet("GetBookingByPost/{postId}")]
+        public object GetBookingByPost(string postId)
+        {
+            return _bookingRepository.GetBookingByPost(postId);
+        }
+
         // GET api/<BookingController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -35,10 +43,10 @@ namespace Motel.Controllers
             return "value";
         }
 
-        [HttpGet("CheckUserBooking")]
-        public bool CheckUserBooking( Guid userId, string postId)
+        [HttpGet("CheckPayed")]
+        public bool CheckPayed( string postId)
         {
-            return _bookingRepository.HasUserBooked(userId, postId);
+            return _bookingRepository.HasPayed(postId);
         }
 
         // POST api/<BookingController>
@@ -49,15 +57,24 @@ namespace Motel.Controllers
         }
 
         // PUT api/<BookingController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateStatus")]
+        public bool Put(Guid userId, string postId)
         {
+            var result = _bookingRepository.UpdateStatus(userId, postId);
+            return result;
         }
 
         // DELETE api/<BookingController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpGet("export-pdf")]
+        public IActionResult ExportPdf()
+        {
+            var fileBytes = _bookingRepository.GeneratePdfReport();
+            return File(fileBytes, "application/pdf", "Bookings.pdf");
         }
     }
 }

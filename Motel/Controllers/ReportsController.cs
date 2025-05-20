@@ -56,5 +56,19 @@ namespace Motel.Controllers
         {
             return _reportRepository.CountReport();
         }
+
+        [HttpGet("GetReportsByReason")]
+        public async Task<ActionResult<List<ReportReasonCount>>> GetReportsByReason()
+        {
+            var reportsByReason = await _reportRepository.GetReportsByReason();
+            return Ok(reportsByReason);
+        }
+
+        [HttpGet("export-pdf")]
+        public IActionResult ExportPdf()
+        {
+            var fileBytes = _reportRepository.GeneratePdfReport();
+            return File(fileBytes, "application/pdf", "Reports.pdf");
+        }
     }
 }

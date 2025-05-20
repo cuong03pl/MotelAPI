@@ -7,9 +7,12 @@ namespace Motel.Interfaces
     {
        object GetBookings(int page, int pageSize);
         object GetUserBookings(Guid userId);
+        object GetBookingByPost(string postId);
         public void CreateBooking(Bookings bookings);
         public Bookings GetBooking(string slug);
         public long GetCount();
-        bool HasUserBooked(Guid userId, string postId);
+        byte[] GeneratePdfReport();
+        bool HasPayed( string postId);
+        public bool UpdateStatus(Guid userId, string postId);
     }
 }

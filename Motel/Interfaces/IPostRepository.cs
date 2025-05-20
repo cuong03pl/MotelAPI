@@ -6,9 +6,9 @@ namespace Motel.Interfaces
 {
     public interface IPostRepository
     {
-         Task<object> GetPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug);
+         Task<object> GetPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug, int? isBrowse = null);
         Task<object> GetApprovedPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug);
-        public Task CreatePost(Posts post, List<IFormFile> imageFiles);
+        public Task<Posts> CreatePost(Posts post, List<IFormFile> imageFiles);
         public void UpdatePost(string id, Posts post);
         public void DeletePost(string id );
         public PostsDTO GetPost(string slug);

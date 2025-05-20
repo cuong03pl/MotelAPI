@@ -9,7 +9,7 @@ namespace Motel.DTO
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
         public int Status { get; set; }
-        public DateTime? CreateAt { get; set; } = DateTime.Now;
+        public DateTime? CreateAt { get; set; } 
         [BsonRepresentation(BsonType.ObjectId)]
         public string? PostId { get; set; }
         public Guid? UserId { get; set; }

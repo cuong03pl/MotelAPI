@@ -11,7 +11,8 @@ namespace Motel.Interfaces
         public bool UpdateReport (string id, Reports report);
         public bool DeleteReport (string id);
         public long CountReport ();
-
+        byte[] GeneratePdfReport();
         public bool Browse(string id);
+        Task<List<ReportReasonCount>> GetReportsByReason();
     }
 }

@@ -65,6 +65,13 @@ namespace Motel.Repository
             return totalCount;
         }
 
+         public bool ConfirmPhone(Guid id)
+        {
+            var user = _motelService.GetUserCollection().Find(user => user.Id == id).FirstOrDefault();
+            if (user == null) return false;
+            return true;
+        }
+
         public async Task<bool> AddFavoritePost(Guid id, string postId)
         {
             var filter = Builders<ApplicationUser>.Filter.Eq(u => u.Id, id);
@@ -92,14 +99,22 @@ namespace Motel.Repository
 
         public bool CheckFavorite(Guid userId, string postId)
         {
-            var filter = Builders<ApplicationUser>.Filter.And(
-                Builders<ApplicationUser>.Filter.Eq(u => u.Id, userId),
-                Builders<ApplicationUser>.Filter.AnyEq(u => u.Favorites, postId)
-            );
-            var user = _motelService.GetUserCollection().Find(filter).FirstOrDefault();
-            Console.WriteLine(user.UserName);
-            return user != null;
+            try
+            {
+                var filter = Builders<ApplicationUser>.Filter.And(
+                    Builders<ApplicationUser>.Filter.Eq(u => u.Id, userId),
+                    Builders<ApplicationUser>.Filter.AnyEq(u => u.Favorites, postId)
+                );
+                var user = _motelService.GetUserCollection().Find(filter).FirstOrDefault();
+                return user != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi CheckFavorite: {ex.Message}");
+                return false; 
+            }
         }
+
 
         public async Task<object> GetUserFavorite(Guid userId)
         {
@@ -290,7 +305,7 @@ namespace Motel.Repository
                                                        .Aggregate<BsonDocument>(pipeline)
                                                        .ToListAsync();
 
-            // Tạo danh sách đủ 12 tháng, nếu tháng nào không có thì count = 0
+         
             var fullMonthData = Enumerable.Range(1, 12)
                 .Select(m => new PostCountByMonthDTO
                 {

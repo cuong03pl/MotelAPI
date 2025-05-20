@@ -24,7 +24,7 @@ namespace Motel.Repository
             _evn = evn;
             _generateSlug = generateSlug;
         }
-        public async Task<object> GetPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug)
+        public async Task<object> GetPosts(int page, int pageSize, decimal? minPrice, decimal? maxPrice, double? minArea, double? maxArea, string categoryId, string provinceSlug, string districtSlug, int? isBrowse = null)
         {
             var matchConditions = new BsonArray();
 
@@ -48,6 +48,9 @@ namespace Motel.Repository
 
             if (!string.IsNullOrEmpty(districtSlug))
                 matchConditions.Add(new BsonDocument("location.DistrictSlug", _generateSlug.TextToSlug(districtSlug)));
+
+            if (isBrowse.HasValue)
+                matchConditions.Add(new BsonDocument("Is_Browse", isBrowse));
 
             var matchStage = new BsonDocument("$match", new BsonDocument("$and", matchConditions));
 
@@ -243,7 +246,7 @@ namespace Motel.Repository
                 Data = posts
             };
         }
-        public async Task CreatePost(Posts post, List<IFormFile> imageFiles)
+        public async Task<Posts> CreatePost(Posts post, List<IFormFile> imageFiles)
         {
             try
             {
@@ -256,10 +259,12 @@ namespace Motel.Repository
                 post.Slug = _generateSlug.CreateSlug(post.Title);
                 post.CreateAt = DateTime.Now;
                 posts.InsertOne(post);
+                return post;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error creating post: {ex.Message}");
+                return null;
             }
         }
 

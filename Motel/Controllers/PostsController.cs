@@ -18,9 +18,9 @@ namespace Motel.Controllers
 
         [HttpGet]
         public async Task<object> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 1, [FromQuery] decimal? minPrice = 0, [FromQuery] decimal? maxPrice = null,
-            [FromQuery] double? minArea = 0, [FromQuery] double? maxArea = null, [FromQuery] string? categoryId = null,[FromQuery] string? provinceSlug = null, [FromQuery] string? districtSlug = null)
+            [FromQuery] double? minArea = 0, [FromQuery] double? maxArea = null, [FromQuery] string? categoryId = null,[FromQuery] string? provinceSlug = null, [FromQuery] string? districtSlug = null, [FromQuery] int? isBrowse = null)
         {
-           return await _postRepository.GetPosts(page, pageSize, minPrice, maxPrice, minArea, maxArea, categoryId, provinceSlug, districtSlug);
+           return await _postRepository.GetPosts(page, pageSize, minPrice, maxPrice, minArea, maxArea, categoryId, provinceSlug, districtSlug, isBrowse);
         }
 
         [HttpGet("GetApprovedPosts")]
@@ -66,8 +66,8 @@ namespace Motel.Controllers
 
             try
             {
-                await _postRepository.CreatePost(post, imageFiles);
-                return Ok(new { message = "Post created successfully" }); 
+              var data =  await _postRepository.CreatePost(post, imageFiles);
+                return Ok(data); 
             }
             catch (Exception ex)
             {
