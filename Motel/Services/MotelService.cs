@@ -58,6 +58,5 @@ namespace Motel.Services
         {
             return _database.GetCollection<Message>("Message");
         }
-
     }
 }

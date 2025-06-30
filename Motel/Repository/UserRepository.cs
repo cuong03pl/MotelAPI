@@ -316,5 +316,13 @@ namespace Motel.Repository
 
             return fullMonthData;
         }
+
+        public bool VerifyUser(Guid id, bool isVerified)
+        {
+            var filter = Builders<ApplicationUser>.Filter.Eq(u => u.Id, id);
+            var update = Builders<ApplicationUser>.Update.Set("IsVerified", isVerified);
+            var result = _motelService.GetUserCollection().UpdateOne(filter, update);
+            return result.ModifiedCount > 0;
+        }
     }
-    }
+}

@@ -50,7 +50,21 @@ namespace Motel.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Email = model.Email, UserName = model.Email, FullName = model.FullName, PhoneNumber = model.PhoneNumber, Avatar = _randomImage.randomImage() };
+                // Check if user already exists with the same email
+                var existingUser = await _userManager.FindByEmailAsync(model.Email);
+                if (existingUser != null)
+                {
+                    return BadRequest(new { Message = "Email is already registered" });
+                }
+                
+                var user = new ApplicationUser { 
+                    Email = model.Email, 
+                    UserName = model.Email, 
+                    FullName = model.FullName, 
+                    PhoneNumber = model.PhoneNumber, 
+                    Avatar = _randomImage.randomImage() 
+                };
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
                 var roleExists = await _roleManager.RoleExistsAsync("User");
                 if (!roleExists)
@@ -60,7 +74,7 @@ namespace Motel.Controllers
                 }
 
                 await _userManager.AddToRoleAsync(user, "User");
-                await _userManager.AddToRoleAsync(user, "User");
+                
                 if (result.Succeeded)
                 {
                     return Ok(new { Message = "User registered successfully!" });

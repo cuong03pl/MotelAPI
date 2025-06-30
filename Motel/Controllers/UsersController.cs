@@ -96,5 +96,18 @@ namespace Motel.Controllers
         {
             return await _userRepository.GetPostCountsByMonth(2025);
         }
+
+        [HttpPut("verify")]
+        public ActionResult VerifyUser([FromQuery] Guid id, [FromQuery] bool isVerified)
+        {
+            if (_userRepository.VerifyUser(id, isVerified))
+            {
+                return Ok(new { success = true, message = "User verification status updated successfully" });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Failed to update user verification status" });
+            }
+        }
     }
 }

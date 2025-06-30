@@ -19,5 +19,6 @@ namespace Motel.Interfaces
         Task<object> GetUserFavorite(Guid userId);
         Task<object> GetUserPosts(Guid userId);
         Task<List<PostCountByMonthDTO>> GetPostCountsByMonth(int year);
+        bool VerifyUser(Guid id, bool isVerified);
     }
 }
