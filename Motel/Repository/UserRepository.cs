@@ -190,7 +190,7 @@ namespace Motel.Repository
             };
 
             var result = await _motelService.GetPostCollection()
-                                            .Aggregate<PostsDTO>(pipeline)
+                                            .Aggregate<PostDTO>(pipeline)
                                             .ToListAsync();
 
             return result;
@@ -262,7 +262,7 @@ namespace Motel.Repository
 
 
             var result = await _motelService.GetPostCollection()
-                                            .Aggregate<PostsDTO>(pipeline)
+                                            .Aggregate<PostDTO>(pipeline)
                                             .ToListAsync();
 
             return result;

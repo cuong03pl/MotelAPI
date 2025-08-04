@@ -10,10 +10,10 @@ namespace Motel.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController : ControllerBase
+    public class BookingsController : ControllerBase
     {
         public IBookingRepository _bookingRepository { get; set; }
-        public BookingController(IBookingRepository bookingRepository) {
+        public BookingsController(IBookingRepository bookingRepository) {
             _bookingRepository = bookingRepository;
         }
 
@@ -24,13 +24,15 @@ namespace Motel.Controllers
         }
 
 
-        [HttpGet("GetUserBookings/{id}")]
+        // [HttpGet("GetUserBookings/{id}")]
+        [HttpGet("users/{id}/bookings")]
         public object GetUserBookings(Guid id)
         {
             return _bookingRepository.GetUserBookings(id);
         }
 
-        [HttpGet("GetBookingByPost/{postId}")]
+        // [HttpGet("GetBookingByPost/{postId}")]
+        [HttpGet("posts/{postId}/bookings")]
         public object GetBookingByPost(string postId)
         {
             return _bookingRepository.GetBookingByPost(postId);
@@ -38,8 +40,9 @@ namespace Motel.Controllers
 
        
 
-        [HttpGet("CheckPayed")]
-        public bool CheckPayed( string postId)
+        // [HttpGet("CheckPayed")]
+        [HttpGet("check-payment")]
+        public bool CheckPayed([FromQuery] string postId)
         {
             return _bookingRepository.HasPayed(postId);
         }
@@ -52,7 +55,8 @@ namespace Motel.Controllers
         }
 
         // PUT api/<BookingController>/5
-        [HttpPut("UpdateStatus")]
+        // [HttpPut("UpdateStatus")]
+        [HttpPut("users/{userId}/posts/{postId}/status")]
         public bool Put(Guid userId, string postId)
         {
             var result = _bookingRepository.UpdateStatus(userId, postId);

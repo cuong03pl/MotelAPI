@@ -112,7 +112,7 @@ namespace Motel.Repository
                     }),
 
             };
-            var reports = _motelService.GetReportCollection().Aggregate<ReportsDTO>(pipeline).ToList();
+            var reports = _motelService.GetReportCollection().Aggregate<ReportDTO>(pipeline).ToList();
 
 
             document.Add(new Paragraph("Tổng số báo cáo: " + reports.Count()).SetFontSize(15));
@@ -138,7 +138,7 @@ namespace Motel.Repository
             return stream.ToArray();
         }
 
-        public ReportsDTO GetReport(string id)
+        public ReportDTO GetReport(string id)
         {
             var pipeline = new[]
              {
@@ -180,7 +180,7 @@ namespace Motel.Repository
                     })
 
             };
-            return _motelService.GetReportCollection().Aggregate<ReportsDTO>(pipeline).FirstOrDefault();
+            return _motelService.GetReportCollection().Aggregate<ReportDTO>(pipeline).FirstOrDefault();
         }
 
         public async Task<object> GetReports(int page, int pageSize)
@@ -233,7 +233,7 @@ namespace Motel.Repository
                     new BsonDocument("$limit", pageSize),
 
             };
-            var reports = _motelService.GetReportCollection().Aggregate<ReportsDTO>(pipeline).ToList();
+            var reports = _motelService.GetReportCollection().Aggregate<ReportDTO>(pipeline).ToList();
             var totalCount = _motelService.GetReportCollection().CountDocuments(new BsonDocument());
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             return new

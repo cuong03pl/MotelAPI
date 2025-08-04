@@ -23,32 +23,36 @@ namespace Motel.Controllers
            return await _postRepository.GetPosts(page, pageSize, minPrice, maxPrice, minArea, maxArea, categoryId, provinceSlug, districtSlug, isBrowse);
         }
 
-        [HttpGet("GetApprovedPosts")]
+        // [HttpGet("GetApprovedPosts")]
+        [HttpGet("approved")]
         public async Task<object> GetApprovedPosts([FromQuery] int page = 1, [FromQuery] int pageSize = 1, [FromQuery] decimal? minPrice = 0, [FromQuery] decimal? maxPrice = null,
             [FromQuery] double? minArea = 0, [FromQuery] double? maxArea = null, [FromQuery] string? categoryId = null, [FromQuery] string? provinceSlug = null, [FromQuery] string? districtSlug = null)
         {
             return await _postRepository.GetApprovedPosts(page, pageSize, minPrice, maxPrice, minArea, maxArea, categoryId, provinceSlug, districtSlug);
         }
 
-        [HttpPost("SearchByLocation")]
+        // [HttpPost("SearchByLocation")]
+        [HttpPost("search/location")]
         public IEnumerable<Posts> SearchByLocation([FromForm] Location location)
         {
             return _postRepository.SearchByLocation(location);
         }
 
         [HttpGet("{slug}")]
-        public PostsDTO Get(string slug)
+        public PostDTO Get(string slug)
         {
             return _postRepository.GetPost(slug);
         }
 
-        [HttpGet("GetPostsByCategory/{slug}")]
+        // [HttpGet("GetPostsByCategory/{slug}")]
+        [HttpGet("categories/{slug}/posts")]
         public async Task<object> GetPostsByCategory([FromQuery] int page , [FromQuery] int pageSize, string slug, [FromQuery] decimal? minPrice ,[FromQuery] decimal? maxPrice, [FromQuery] double? minArea, [FromQuery]  double? maxArea)
         {
             return await _postRepository.GetPostsByCategory(slug, minPrice, maxPrice, minArea, maxArea, page, pageSize);
         }
 
-        [HttpGet("GetPostsByProvinceSlug/{id}")]
+        // [HttpGet("GetPostsByProvinceSlug/{id}")]
+        [HttpGet("provinces/{id}/posts")]
         public async Task<object> GetPostsByProvinceSlug(string id, [FromQuery] int page = 1, [FromQuery] int pageSize = 1)
         {
             return await _postRepository.GetPostsByProvinceSlug(id, page, pageSize);
@@ -89,24 +93,29 @@ namespace Motel.Controllers
         }
 
 
-        [HttpGet("GetCount")]
+        // [HttpGet("GetCount")]
+        [HttpGet("count")]
         public long GetCount()
         {
             return _postRepository.GetCount();
         }
 
-        [HttpGet("GetLatestPosts")]
+        // [HttpGet("GetLatestPosts")]
+        [HttpGet("latest")]
         public IEnumerable<Posts> GetLatestPosts()
         {
             return _postRepository.GetLatestPosts(5);
         }
-        [HttpPut("Browse")]
+        
+        // [HttpPut("Browse")]
+        [HttpPut("{id}/browse")]
         public void Browse(string id)
         {
             _postRepository.Browse(id);
         }
 
-        [HttpGet("GetLocations")]
+        // [HttpGet("GetLocations")]
+        [HttpGet("locations")]
         public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
         {
             var locations = await _postRepository.GetLocations();

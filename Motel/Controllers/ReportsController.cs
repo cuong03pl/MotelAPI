@@ -23,7 +23,7 @@ namespace Motel.Controllers
         }
 
         [HttpGet("{id}")]
-        public ReportsDTO Get(string id)
+        public ReportDTO Get(string id)
         {
             return _reportRepository.GetReport(id);
         }
@@ -46,18 +46,22 @@ namespace Motel.Controllers
             _reportRepository.DeleteReport(id);
         }
 
-        [HttpPut("Browse")]
+        // [HttpPut("Browse")]
+        [HttpPut("{id}/browse")]
         public void Browse(string id)
         {
             _reportRepository.Browse(id);
         }
-        [HttpGet("GetCount")]
+        
+        // [HttpGet("GetCount")]
+        [HttpGet("count")]
         public long GetCount()
         {
             return _reportRepository.CountReport();
         }
 
-        [HttpGet("GetReportsByReason")]
+        // [HttpGet("GetReportsByReason")]
+        [HttpGet("by-reason")]
         public async Task<ActionResult<List<ReportReasonCount>>> GetReportsByReason()
         {
             var reportsByReason = await _reportRepository.GetReportsByReason();

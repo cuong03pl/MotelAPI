@@ -28,7 +28,9 @@ namespace Motel.Controllers
         {
             return _reviewRepository.GetReview(id);
         }
-        [HttpGet("GetReviewsByPost/{id}")]
+        
+        // [HttpGet("GetReviewsByPost/{id}")]
+        [HttpGet("posts/{id}/reviews")]
         public List<ReviewDTO> GetReviewsByPost(string id)
         {
             return _reviewRepository.GetReviewsByPost(id);

@@ -11,10 +11,10 @@ namespace Motel.Helpers
         {
             CreateMap<ReviewDTO, Reviews>();
             CreateMap<Reviews, ReviewDTO>();
-            CreateMap<Reports, ReportsDTO>();
-            CreateMap<ReportsDTO, Reports>();
-            CreateMap<PostsDTO, Posts>();
-            CreateMap<Posts, PostsDTO>();
+            CreateMap<Reports, ReportDTO>();
+            CreateMap<ReportDTO, Reports>();
+            CreateMap<PostDTO, Posts>();
+            CreateMap<Posts, PostDTO>();
             CreateMap<UserDTO, ApplicationUser>();
             CreateMap<ApplicationUser, UserDTO>();
         }

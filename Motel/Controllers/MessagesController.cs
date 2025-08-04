@@ -59,7 +59,8 @@ namespace Motel.Controllers
         }
 
         // POST: api/chat/send
-        [HttpPost("send")]
+        // [HttpPost("send")]
+        [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageDTO model)
         {
             try
@@ -83,7 +84,8 @@ namespace Motel.Controllers
             }
         }
 
-        [HttpPost("create")]
+        // [HttpPost("create")]
+        [HttpPost("conversations")]
         public async Task<IActionResult> CreateConversation([FromBody] CreateConversationDTO model)
         {
             try

@@ -31,11 +31,13 @@ namespace Motel.Controllers
             return _userRepository.GetUser(id);
         }
 
-        [HttpGet("countPost/{id}")]
+        // [HttpGet("countPost/{id}")]
+        [HttpGet("{id}/posts/count")]
         public long CountPost(Guid id)
         {
             return _userRepository.CountPost(id);
         }
+        
         [HttpPut("{id}")]
         public void Put(Guid id, [FromBody] ApplicationUser user)
         {
@@ -49,14 +51,16 @@ namespace Motel.Controllers
             _userRepository.DeleteUser(id);
         }
 
-        [HttpPut("block")]
-        public void Block(Guid id, bool is_block)
+        // [HttpPut("block")]
+        [HttpPut("{id}/block")]
+        public void Block(Guid id, [FromQuery] bool is_block)
         {
             _userRepository.BlockUser(id, is_block );
         }
 
-        [HttpPost("AddFavoritePost")]
-        public async Task<ActionResult> AddFavoritePost([FromQuery] Guid userId, [FromQuery] string postId)
+        // [HttpPost("AddFavoritePost")]
+        [HttpPost("{userId}/favorites/{postId}")]
+        public async Task<ActionResult> AddFavoritePost(Guid userId, string postId)
         {
            if(await  _userRepository.AddFavoritePost(userId, postId))
             {
@@ -64,8 +68,10 @@ namespace Motel.Controllers
             }
            else { return BadRequest(); }
         }
-        [HttpGet("CheckFavorite")]
-        public  ActionResult CheckFavorite([FromQuery]  Guid userId, [FromQuery] string postId)
+        
+        // [HttpGet("CheckFavorite")]
+        [HttpGet("{userId}/favorites/{postId}/check")]
+        public  ActionResult CheckFavorite(Guid userId, string postId)
         {
             if ( _userRepository.CheckFavorite(userId, postId))
             {
@@ -73,32 +79,38 @@ namespace Motel.Controllers
             }
             else { return Ok(false); }
         }
-        [HttpGet("GetUserFavorite/{id}")]
+        
+        // [HttpGet("GetUserFavorite/{id}")]
+        [HttpGet("{id}/favorites")]
         public async Task<object> GetUserFavorite(Guid id)
         {
             return  await _userRepository.GetUserFavorite(id);
         }
 
-        [HttpGet("GetUserPosts/{id}")]
+        // [HttpGet("GetUserPosts/{id}")]
+        [HttpGet("{id}/posts")]
         public async Task<object> GetUserPosts(Guid id)
         {
             return await _userRepository.GetUserPosts(id);
         }
 
-        [HttpGet("GetCount")]
+        // [HttpGet("GetCount")]
+        [HttpGet("count")]
         public long GetCount()
         {
             return  _userRepository.GetCount();
         }
 
-        [HttpGet("GetPostCountsByMonth")]
+        // [HttpGet("GetPostCountsByMonth")]
+        [HttpGet("posts/monthly-counts")]
         public async Task<List<PostCountByMonthDTO>> GetPostCountsByMonth()
         {
             return await _userRepository.GetPostCountsByMonth(2025);
         }
 
-        [HttpPut("verify")]
-        public ActionResult VerifyUser([FromQuery] Guid id, [FromQuery] bool isVerified)
+        // [HttpPut("verify")]
+        [HttpPut("{id}/verify")]
+        public ActionResult VerifyUser(Guid id, [FromQuery] bool isVerified)
         {
             if (_userRepository.VerifyUser(id, isVerified))
             {

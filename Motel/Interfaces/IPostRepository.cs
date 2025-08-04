@@ -11,7 +11,7 @@ namespace Motel.Interfaces
         public Task<Posts> CreatePost(Posts post, List<IFormFile> imageFiles);
         public void UpdatePost(string id, Posts post);
         public void DeletePost(string id );
-        public PostsDTO GetPost(string slug);
+        public PostDTO GetPost(string slug);
         public long GetCount();
         public bool Browse(string id);
         public List<Posts> SearchByLocation(Location location);

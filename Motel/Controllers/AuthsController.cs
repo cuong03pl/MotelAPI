@@ -19,7 +19,7 @@ namespace Motel.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthsController : ControllerBase
     {
         public UserManager<ApplicationUser> _userManager;
         public SignInManager<ApplicationUser> _signInManager;
@@ -30,7 +30,7 @@ namespace Motel.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IEmailService _emailService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+        public AuthsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
             RandomImage randomImage, IConfiguration configuration, 
             ILoginHistoryRepository loginHistoryRepository, RoleManager<ApplicationRole> roleManager, IRoleRepository roleRepository,
             IEmailService emailService)
@@ -145,38 +145,48 @@ namespace Motel.Controllers
             return token;
         }
 
-        [HttpGet("GetLoginHistory")]
+        // [HttpGet("GetLoginHistory")]
+        [HttpGet("login-history")]
         public object GetLoginHistory(int page, int pageSize)
         {
             return _loginHistoryRepository.GetLoginHistory(page, pageSize);
         }
-        [HttpPost("SetRole/{userId}")]
-        public async Task<IActionResult> SetRole(Guid userId, [FromForm] List<Guid> roles)
+        
+        // [HttpPost("SetRole/{userId}")]
+        // [HttpPost("set-role/{id}")]
+        [HttpPost("users/{id}/roles")]
+        public async Task<IActionResult> SetRole(Guid id, [FromForm] List<Guid> roles)
         {
-            if (await _roleRepository.SetRole(userId, roles))
+            if (await _roleRepository.SetRole(id, roles))
             {
                 return Ok("Success");
             }
             else return BadRequest();
         }
 
-        [HttpGet("GetRoles")]
+        // [HttpGet("GetRoles")]
+        [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
             return Ok(_roleRepository.GetRoles());
         }
 
-        [HttpDelete("DeleteRole/{id}")]
+        // [HttpDelete("DeleteRole/{id}")]
+        [HttpDelete("roles/{id}")]
         public async Task<IActionResult> DeleteRole(Guid id)
         {
             return Ok(await _roleRepository.DeleteRole(id));
         }
-        [HttpPost("CreateRole")]
+        
+        // [HttpPost("CreateRole")]
+        [HttpPost("roles")]
         public async Task<IActionResult> CreateRole([FromBody] RoleDTO role)
         {
             return Ok(await _roleRepository.CreateRole(role.RoleName));
         }
-        [HttpPut("UpdateRole/{id}")]
+        
+        // [HttpPut("UpdateRole/{id}")]
+        [HttpPut("roles/{id}")]
         public async Task<IActionResult> UpdateRole(Guid id, [FromBody] RoleDTO role)
         {
             return Ok(await _roleRepository.UpdateRole(id, role));

@@ -6,7 +6,7 @@ namespace Motel.Interfaces
     public interface IReportRepository
     {
          Task<object> GetReports(int page, int pageSize);
-        public ReportsDTO GetReport(string id);
+        public ReportDTO GetReport(string id);
         public void CreateReport (Reports report);
         public bool UpdateReport (string id, Reports report);
         public bool DeleteReport (string id);

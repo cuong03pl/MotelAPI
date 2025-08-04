@@ -4,7 +4,7 @@ using Motel.Models;
 
 namespace Motel.DTO
 {
-    public class ReportsDTO
+    public class ReportDTO
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }

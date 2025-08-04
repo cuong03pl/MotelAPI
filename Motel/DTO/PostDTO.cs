@@ -4,7 +4,7 @@ using Motel.Models;
 
 namespace Motel.DTO
 {
-    public class PostsDTO
+    public class PostDTO
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

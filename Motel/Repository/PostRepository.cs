@@ -119,7 +119,7 @@ namespace Motel.Repository
             };
 
             var posts = await _motelService.GetPostCollection()
-                          .Aggregate<PostsDTO>(pipeline)
+                          .Aggregate<PostDTO>(pipeline)
                           .ToListAsync();
 
             var totalCount = await _motelService.GetPostCollection()
@@ -230,7 +230,7 @@ namespace Motel.Repository
             };
 
             var posts = await _motelService.GetPostCollection()
-                          .Aggregate<PostsDTO>(pipeline)
+                          .Aggregate<PostDTO>(pipeline)
                           .ToListAsync();
 
             var totalCount = await _motelService.GetPostCollection()
@@ -287,7 +287,7 @@ namespace Motel.Repository
            _motelService.GetPostCollection().DeleteOne(post => post.Id == id);
         }
 
-        public PostsDTO GetPost(string slug)
+        public PostDTO GetPost(string slug)
         {
             var pipeline = new[]
              {
@@ -350,7 +350,7 @@ namespace Motel.Repository
                         { "Slug", 1 }
                     })
              };
-            return _motelService.GetPostCollection().Aggregate<PostsDTO>(pipeline).FirstOrDefault();
+            return _motelService.GetPostCollection().Aggregate<PostDTO>(pipeline).FirstOrDefault();
         }
 
         public long GetCount()
@@ -533,7 +533,7 @@ namespace Motel.Repository
             };
 
             var posts = await _motelService.GetPostCollection()
-                          .Aggregate<PostsDTO>(pipeline)
+                          .Aggregate<PostDTO>(pipeline)
                           .ToListAsync();
 
             var totalCount = await _motelService.GetPostCollection()
@@ -622,7 +622,7 @@ namespace Motel.Repository
             };
 
             var posts = await _motelService.GetPostCollection()
-                          .Aggregate<PostsDTO>(pipeline)
+                          .Aggregate<PostDTO>(pipeline)
                           .ToListAsync();
             return new
             {
@@ -736,7 +736,7 @@ namespace Motel.Repository
             };
 
             var posts = await _motelService.GetPostCollection()
-                          .Aggregate<PostsDTO>(pipeline)
+                          .Aggregate<PostDTO>(pipeline)
                           .ToListAsync();
             return new
             {
